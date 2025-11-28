@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Rellstar</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow-x: hidden;
+    font-family: Arial, sans-serif;
+    color: white;
+  }
+
+  .bg-video {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  /* Intro black screen */
+  #introBlack {
+    position: fixed; inset: 0;
+    background: black;
+    z-index: 20;
+    opacity: 1;
+    transition: 1.5s;
+  }
+
+  /* Intro video */
+  #introAnim {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 260px; height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    z-index: 21;
+    opacity: 0;
+    transition: 1s;
+  }
+
+  .content {
+    position: relative;
+    z-index: 5;
+    padding: 20px;
+  }
+
+  .logo-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    display: flex;
+    align-items: flex-start;
+    gap: 4px;
+    text-shadow: 0 0 12px rgba(255,255,255,0.6);
+  }
+
+  .logo-icon {
+    width: 15px;
+    height: 35px;
+    object-fit: contain;
+    margin-top: 20px;
+  }
+
+  /* Slider */
+  .slider {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding: 20px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .column {
+    flex: none;
+    width: 200px;
+    background: rgba(255,255,255,0.1);
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  .column:hover { transform: translateY(-6px); }
+
+  .column img {
+    width: 100%; height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .label {
+    margin-top: 10px;
+    font-size: 20px;
+    font-weight: bold;
+  }
+
+  /* Popup ad */
+  #adPopup {
+    position: fixed; inset: 0;
+    background: rgba(0,0,0,0.85);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+    text-align: center;
+  }
+
+  #adPopup .box {
+    background: #111;
+    padding: 20px;
+    border-radius: 12px;
+  }
+</style>
+</head>
+
+<body>
+
+<div id="introBlack"></div>
+
+<video id="introAnim" autoplay muted playsinline>
+  <source src="logo1.mp4" type="video/mp4">
+</video>
+
+<video class="bg-video" autoplay muted loop playsinline>
+  <source src="rells.mp4" type="video/mp4">
+</video>
+
+<div class="content">
+  <h1 class="logo-title">
+    R E L L S T A R 
+    <img src="yourlogo.jpg" class="logo-icon">
+  </h1>
+</div>
+
+<!-- Columns under the logo -->
+<div class="slider">
+
+  <div class="column" onclick="openWithAd('https://raycoder-69.github.io/Ray-universe-galaxy/')">
+    <img src="kisses.jpg">
+    <div class="label">KISSES</div>
+  </div>
+
+  <div class="column" onclick="openWithAd('INDEXX.html')">
+    <img src="img2.jpg"><div class="label">Website 2</div>
+  </div>
+
+  <div class="column" onclick="openWithAd('https://raycoder-69.github.io/Ray-universe-galaxy/')">
+    <img src="img3.jpg"><div class="label">Website 3</div>
+  </div>
+
+  <div class="column" onclick="openWithAd('yourwebsite4.html')">
+    <img src="img4.jpg"><div class="label">Website 4</div>
+  </div>
+
+  <div class="column" onclick="openWithAd('yourwebsite5.html')">
+    <img src="img5.jpg"><div class="label">Website 5</div>
+  </div>
+
+  <div class="column" onclick="openWithAd('yourwebsite6.html')">
+    <img src="img6.jpg"><div class="label">Website 6</div>
+  </div>
+
+</div>
+
+<!-- Ad popup -->
+<div id="adPopup">
+  <div class="box">
+    <h3>Advertisement</h3>
+    <div style="width:300px;height:250px;background:#222;border-radius:8px;display:flex;justify-content:center;align-items:center;color:#777;">
+      AD AREA
+    </div>
+    <p style="margin-top:10px;">Redirecting in <span id="countdown">5</span> seconds…</p>
+  </div>
+</div>
+
+<script>
+// INTRO ANIMATION
+setTimeout(() => { introAnim.style.opacity = "1"; }, 500);
+
+setTimeout(() => {
+  introBlack.style.opacity = "0";
+  introAnim.style.transform = "translate(-50%, -50%) translate(260px,-120px) scale(0.25)";
+}, 4000);
+
+setTimeout(() => { introAnim.style.opacity = "0"; }, 6000);
+
+setTimeout(() => {
+  introBlack.style.display = "none";
+  introAnim.style.display = "none";
+}, 7000);
+
+
+// AD POPUP
+function openWithAd(url) {
+  document.getElementById("adPopup").style.display = "flex";
+
+  let sec = 5;
+  document.getElementById("countdown").innerText = sec;
+
+  let timer = setInterval(() => {
+    sec--;
+    document.getElementById("countdown").innerText = sec;
+    if (sec <= 0) {
+      clearInterval(timer);
+      window.location.href = url;
+    }
+  }, 1000);
+}
+</script>
+
+</body>
+</html>
